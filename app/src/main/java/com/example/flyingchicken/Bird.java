@@ -10,7 +10,7 @@ public class Bird extends BaseObject{
     private ArrayList<Bitmap> arrBms=new ArrayList<>();
     public Bird(){
         this.count=0;
-        this.vFlap=5;
+        this.vFlap=10;
         this.idCurrentBitmap=0;
     }
     public void draw(Canvas canvas){
@@ -30,18 +30,28 @@ public class Bird extends BaseObject{
 
     @Override
     public Bitmap getBm() {
+
         count++;
         if(this.count==this.vFlap){
-            for(int i=0;i<arrBms.size();i++){
+            if(this.idCurrentBitmap==1){
+                this.idCurrentBitmap=0;
+            }
+            else{
+                this.idCurrentBitmap=1;
+            }
+           /* for(int i=0;i<arrBms.size();i++){
                 if(1==arrBms.size()-1){
+
                     this.idCurrentBitmap=0;
                     break;
 
                 }else if(this.idCurrentBitmap==i){
+
                     idCurrentBitmap=i+1;
                     break;
                 }
-            }
+
+            }*/
             count=0;
 
         }

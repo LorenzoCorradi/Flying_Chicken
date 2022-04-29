@@ -21,13 +21,20 @@ public class GameView extends View {
         super(context, attrs);
         bird=new Bird();
         bird.setWidth((100*Constants.SCREEN_WIDTH/1000));
-        bird.setHeight((100*Constants.SCREEN_HEIGHT/1920));
+        bird.setHeight((100*Constants.SCREEN_HEIGHT/1900));
         bird.setX(100*Constants.SCREEN_WIDTH/1000);
         bird.setY(Constants.SCREEN_HEIGHT/2-bird.getHeight()/2);
         ArrayList<Bitmap> arrBms=new ArrayList<>();
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird1));
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird2));
         bird.setArrBms(arrBms);
+        handler=new Handler();
+        r=new Runnable() {
+            @Override
+            public void run() {
+                invalidate();
+            }
+        };
     }
     public void draw(Canvas canvas){
         super.draw(canvas);
