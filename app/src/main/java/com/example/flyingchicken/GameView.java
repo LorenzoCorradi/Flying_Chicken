@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 
 public class GameView extends View {
     private Bird bird;
+    private Handler handler;
+    private Runnable r;
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         bird=new Bird();
@@ -29,6 +32,7 @@ public class GameView extends View {
     public void draw(Canvas canvas){
         super.draw(canvas);
         bird.draw(canvas);
+        handler.postDelayed(r,10);
 
     }
 }
