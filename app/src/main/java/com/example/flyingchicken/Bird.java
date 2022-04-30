@@ -8,13 +8,24 @@ import java.util.ArrayList;
 public class Bird extends BaseObject{
     private int count ,vFlap,idCurrentBitmap;
     private ArrayList<Bitmap> arrBms=new ArrayList<>();
+    public float drop;
     public Bird(){
         this.count=0;
         this.vFlap=10;
         this.idCurrentBitmap=0;
+        this.drop=0;
     }
-    public void draw(Canvas canvas){
+    public void draw(Canvas canvas,Boolean status){
+        if(status==false){
+            drop();
+        }
+
         canvas.drawBitmap(this.getBm(),this.x,this.y,null);
+    }
+
+    private void drop() {
+        this.drop+=0.6;
+        this.y+=this.drop;
     }
 
     public ArrayList<Bitmap> getArrBms() {
@@ -56,5 +67,13 @@ public class Bird extends BaseObject{
 
         }
         return this.arrBms.get(idCurrentBitmap);
+    }
+
+    public float getDrop() {
+        return drop;
+    }
+
+    public void setDrop(float drop) {
+        this.drop = drop;
     }
 }
