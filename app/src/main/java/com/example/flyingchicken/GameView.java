@@ -20,6 +20,7 @@ public class GameView extends View {
     private Bird bird;
     private Handler handler;
     private Runnable r;
+    private Pipe pipe;
 
 
 
@@ -36,18 +37,17 @@ public class GameView extends View {
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird2));
         bird.setArrBms(arrBms);
 
-
-
-
+        pipe=new Pipe();
+        pipe.setX(Constants.SCREEN_WIDTH/2);
+        pipe.setY(Constants.SCREEN_HEIGHT-600*Constants.SCREEN_HEIGHT/1900);
+        pipe.setWidth((100*Constants.SCREEN_WIDTH/1000));
+        pipe.setHeight((600*Constants.SCREEN_HEIGHT/1900));
+        pipe.setImage(BitmapFactory.decodeResource(this.getResources(),R.drawable.pipe1));
         handler=new Handler();
         r=new Runnable() {
             @Override
             public void run() {
-
-                        invalidate();
-
-
-
+                invalidate();
             }
         };
     }
@@ -56,7 +56,7 @@ public class GameView extends View {
         super.draw(canvas);
 
         bird.draw(canvas,Constants.PAUSED);
-
+        pipe.draw(canvas,Constants.PAUSED);
         handler.postDelayed(r,10);
 
     }
