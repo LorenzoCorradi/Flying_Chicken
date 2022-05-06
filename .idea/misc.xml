@@ -6,11 +6,16 @@
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/border.xml" value="0.1" />
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.1" />
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/ic_menu_icon.xml" value="0.1535" />
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/ic_option_icon.xml" value="0.1" />
+        <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/ic_pause.xml" value="0.144" />
+        <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/rectangle_selector.xml" value="0.162" />
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/round_rectangle.xml" value="0.1515" />
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/round_rectangle_on.xml" value="0.114" />
         <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/drawable/some_selector_name.xml" value="0.1" />
-        <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/layout/fragment_pause.xml" value="0.22" />
+        <entry key="..\:/Users/Lorenzo/AndroidStudioProjects/FlyingChicken/app/src/main/res/xml/root_preferences.xml" value="0.209375" />
       </map>
     </option>
   </component>
