@@ -25,7 +25,7 @@ public class GameView extends View {
     private Bird bird;
     private Handler handler;
     private Runnable r;
-    LinkedList<Pipe> queue=new LinkedList<>();
+    ArrayList<Pipe> pipes=new ArrayList<>();
     Resources res = getContext().getResources();
 
 
@@ -43,26 +43,19 @@ public class GameView extends View {
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird2));
         bird.setArrBms(arrBms);
 
-
         Pipe start=new Pipe();
-        start.newLast(null,this.getResources());
-        queue.add(start);
+        start.setimages(BitmapFactory.decodeResource(this.getResources(),R.drawable.pipe1),BitmapFactory.decodeResource(this.getResources(),R.drawable.pipe2));
+        start.init(400,5,res);
+        pipes.add(start);
+
+        for(int i=0; i<3;i++){
+            Pipe last=new Pipe();
+            last.setimages(BitmapFactory.decodeResource(this.getResources(),R.drawable.pipe1),BitmapFactory.decodeResource(this.getResources(),R.drawable.pipe2));
+            last.init(pipes.get(i).getX(),Pipe.newH(pipes.get(i)),res);
+            pipes.add(last);
+        }
 
         handler=new Handler();
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                while (true){
-                    if(Constants.SCREEN_WIDTH-queue.getLast().x>400){
-                        Pipe last=new Pipe();
-                        last.newLast(queue.getLast(),res);
-                        queue.add(last);
-                    }
-                }
-            }
-        }.start();
-
         r=new Runnable() {
             @Override
             public void run() {
@@ -72,16 +65,8 @@ public class GameView extends View {
     }
     public void draw(Canvas canvas){
         super.draw(canvas);
-        if(queue.getFirst().getX()+queue.getFirst().getWidth()<0){
-            queue.remove();
-        }
-        for (ListIterator<Pipe> i = queue.listIterator(); i.hasNext();){
-            Pipe d=i.next();
-            d.draw(canvas, Constants.PAUSED);
-            if(d.getX()+d.getWidth()<0){
-                i.remove();
-            }
-        }
+
+        Pipe.draw(canvas,Constants.PAUSED,pipes,res);
         bird.draw(canvas,Constants.PAUSED);
         handler.postDelayed(r,10);
     }

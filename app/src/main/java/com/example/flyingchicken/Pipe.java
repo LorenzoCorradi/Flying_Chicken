@@ -3,6 +3,7 @@ package com.example.flyingchicken;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,14 +18,60 @@ public class Pipe extends BaseObject{
         this.speed = 5;
     }
 
-    public void draw(Canvas canvas, Boolean status){
-        if(status==false){
-            move();
+    public void init(float lastx,int h,android.content.res.Resources res){
+        this.setX(lastx+600);
+
+        this.setY(Constants.SCREEN_HEIGHT-600*Constants.SCREEN_HEIGHT/1900);
+        this.setWidth((100*Constants.SCREEN_WIDTH/1000));
+        this.setHeight((int)(h*10-8)*Constants.SCREEN_HEIGHT/100);
+        this.setImageTop(this.imageTop);
+        this.setHeight((int)((10-h)*10-8)*Constants.SCREEN_HEIGHT/100);
+        this.setImageBottom(this.imageBottom);
+
+    }
+    static Pipe getlast(ArrayList<Pipe> pipes){
+        float x=0;
+        Pipe last=null;
+        for(Pipe p:pipes){
+            if(p.getX()>x){
+                x=p.getX();
+                last=p;
+            }
         }
-        canvas.drawBitmap(this.imageBottom,this.x,Constants.SCREEN_HEIGHT-((10-h)*10-8)*Constants.SCREEN_HEIGHT/100,null);
-        canvas.drawBitmap(this.imageTop,this.x,0,null);
+        return last;
+    }
+    static void draw(Canvas canvas, Boolean status,ArrayList<Pipe> pipes,android.content.res.Resources res){
+        if(status==false){
+                int count=0;
+            for(Pipe p:pipes){
+               if(p.x+p.width<0){
+                    Pipe last=getlast(pipes);
+                    int newh=newH(last);
+                    p.setH(newh);
+                    p.init(last.getX(),newh,res);
+                }
+                p.move();
+                count++;
+            }
 
 
+        }
+        for(Pipe p:pipes){
+           canvas.drawBitmap(p.imageBottom,p.x,Constants.SCREEN_HEIGHT-p.height,null);
+           canvas.drawBitmap(p.imageTop,p.x,0,null);
+        }
+
+
+
+    }
+
+    public void setH(int h) {
+        this.h = h;
+    }
+
+    public void setimages(Bitmap imagebot, Bitmap imagetop){
+        this.imageTop=imagetop;
+        this.imageBottom=imagebot;
     }
     public void move(){
         this.x=this.x-speed;
@@ -39,11 +86,14 @@ public class Pipe extends BaseObject{
 
     }
     public void newLast(Pipe oldlast,android.content.res.Resources res){
+        float lastx;
         if(oldlast==null){
             h=5;
+            lastx=0;
         }
         else {
             Random rn = new Random();
+            lastx=oldlast.getX();
             int x=oldlast.getH();
             h = rn.nextInt(7) + x-3;    //l'altezza di differenza fra i tubi varia massimo del 30%
             if(h<=1){
@@ -54,10 +104,9 @@ public class Pipe extends BaseObject{
             }
 
         }
-        this.setX(Constants.SCREEN_WIDTH+200);
+        this.setX(lastx+400);
         this.setY(Constants.SCREEN_HEIGHT-600*Constants.SCREEN_HEIGHT/1900);
         this.setWidth((100*Constants.SCREEN_WIDTH/1000));
-
         this.setHeight((int)(h*10-8)*Constants.SCREEN_HEIGHT/100);
         this.setImageTop(BitmapFactory.decodeResource(res,R.drawable.pipe2));
         this.setHeight((int)((10-h)*10-8)*Constants.SCREEN_HEIGHT/100);
@@ -68,5 +117,28 @@ public class Pipe extends BaseObject{
 
     public int getH() {
         return h;
+    }
+
+    static int newH(Pipe oldlast){
+        int h;
+
+        if(oldlast==null){
+            h=5;
+        }
+        else {
+            Random rn = new Random();
+            int x = oldlast.getH();
+            h = rn.nextInt(7) + x - 3; //l'altezza di differenza fra i tubi varia massimo del 30%
+            System.out.println("x = "+x );
+            System.out.println(h);
+            if (h <= 1) {
+                h = 2;
+            } else if (h >= 10) {
+                h = 9;
+            }
+        }
+        System.out.println(h);
+        return h;
+
     }
 }
