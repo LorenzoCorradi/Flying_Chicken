@@ -34,13 +34,15 @@ public class GameView extends View {
         super(context, attrs);
 
         bird=new Bird();
-        bird.setWidth((100*Constants.SCREEN_WIDTH/1000));
+        bird.setWidth((2*100*Constants.SCREEN_WIDTH/1000));
         bird.setHeight((100*Constants.SCREEN_HEIGHT/1900));
         bird.setX(100*Constants.SCREEN_WIDTH/1000);
         bird.setY(Constants.SCREEN_HEIGHT/2-bird.getHeight()/2);
         ArrayList<Bitmap> arrBms=new ArrayList<>();
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird1));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.bird2));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame1));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame2));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame3));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame4));
         bird.setArrBms(arrBms);
 
         Pipe start=new Pipe();
