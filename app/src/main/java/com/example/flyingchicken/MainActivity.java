@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.MapFragment;
 
@@ -36,8 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ImageButton pause=(ImageButton) findViewById(R.id.pauseButton);
         pause.setOnClickListener(this);
-
+        ImageButton menu=(ImageButton)findViewById(R.id.menuButton);
+        menu.setOnClickListener(this);
         Constants.PAUSED=false;
+        ImageView gameview=findViewById(R.id.imageView);
+
+
 
     }
 
@@ -65,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+        }
+        if(view==findViewById(R.id.menuButton)){
+            Constants.PAUSED=(!Constants.PAUSED);
+            Intent i=new Intent(this, MenuActivity.class);
+            startActivity(i);
+            this.finish();
         }
 
     }

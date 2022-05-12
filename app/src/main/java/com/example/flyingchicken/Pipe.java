@@ -20,14 +20,8 @@ public class Pipe extends BaseObject{
 
     public void init(float lastx,int h,android.content.res.Resources res){
         this.setX(lastx+600);
-
-        this.setY(Constants.SCREEN_HEIGHT-600*Constants.SCREEN_HEIGHT/1900);
+        this.h=h;
         this.setWidth((100*Constants.SCREEN_WIDTH/1000));
-        this.setHeight((int)(h*10-8)*Constants.SCREEN_HEIGHT/100);
-        this.setImageTop(this.imageTop);
-        this.setHeight((int)((10-h)*10-8)*Constants.SCREEN_HEIGHT/100);
-        this.setImageBottom(this.imageBottom);
-
     }
     static Pipe getlast(ArrayList<Pipe> pipes){
         float x=0;
@@ -57,8 +51,8 @@ public class Pipe extends BaseObject{
 
         }
         for(Pipe p:pipes){
-           canvas.drawBitmap(p.imageBottom,p.x,Constants.SCREEN_HEIGHT-p.height,null);
-           canvas.drawBitmap(p.imageTop,p.x,0,null);
+           canvas.drawBitmap(p.imageBottom,p.x,(float)(10-p.h+0.8)*10*Constants.SCREEN_HEIGHT/100,null);
+           canvas.drawBitmap(p.imageTop,p.x,(float)(10-p.h-0.8)*10*Constants.SCREEN_HEIGHT/100-p.getImageTop().getHeight(),null);
         }
 
 
@@ -129,8 +123,7 @@ public class Pipe extends BaseObject{
             Random rn = new Random();
             int x = oldlast.getH();
             h = rn.nextInt(7) + x - 3; //l'altezza di differenza fra i tubi varia massimo del 30%
-            System.out.println("x = "+x );
-            System.out.println(h);
+
             if (h <= 1) {
                 h = 2;
             } else if (h >= 10) {
@@ -140,5 +133,9 @@ public class Pipe extends BaseObject{
         System.out.println(h);
         return h;
 
+    }
+
+    public Bitmap getImageTop() {
+        return imageTop;
     }
 }
