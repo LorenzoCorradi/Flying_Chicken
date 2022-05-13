@@ -1,5 +1,7 @@
 package com.example.flyingchicken;
 
+import static com.example.flyingchicken.Constants.SCREEN_HEIGHT;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -24,8 +26,10 @@ public class Bird extends BaseObject{
     }
 
     private void drop() {
-        this.drop+=0.6;
-        this.y+=this.drop;
+        if(y + drop + height / 2 < SCREEN_HEIGHT){
+            this.drop+=0.6;
+            this.y+=this.drop;
+        }
     }
 
     public ArrayList<Bitmap> getArrBms() {

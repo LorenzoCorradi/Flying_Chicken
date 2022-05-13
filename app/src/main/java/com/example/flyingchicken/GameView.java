@@ -91,7 +91,8 @@ public class GameView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getAction()==MotionEvent.ACTION_UP){
-            bird.setDrop(-15);
+            if(bird.getY() + bird.getHeight() / 2 > 0)
+                bird.setDrop(-15);
         }
         return true;
     }
