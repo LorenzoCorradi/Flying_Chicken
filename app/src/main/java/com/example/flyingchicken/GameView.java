@@ -19,8 +19,11 @@ public class GameView extends View {
     private Handler handler;
     private Runnable r;
     private Coin coin;
+    private Bottom bottom1;
+    private Bottom bottom2;
     ArrayList<Pipe> pipes=new ArrayList<>();
     Resources res = getContext().getResources();
+
 
 
 
@@ -28,15 +31,19 @@ public class GameView extends View {
         super(context, attrs);
         this.setBackground(context.getDrawable(Constants.BACKGROUND));
         bird=new Bird();
-        bird.setWidth((2*100*Constants.SCREEN_WIDTH/1000));
+
+        bird.setWidth((100*Constants.SCREEN_WIDTH/1000));
         bird.setHeight((100*Constants.SCREEN_HEIGHT/1900));
         bird.setX(100*Constants.SCREEN_WIDTH/1000);
         bird.setY(Constants.SCREEN_HEIGHT/2-bird.getHeight()/2);
         ArrayList<Bitmap> arrBms=new ArrayList<>();
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame1));
+
+        /*arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame1));
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame2));
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame3));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame4));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame4));*/
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.chicken_frame1));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.chiken_frame2));
         bird.setArrBms(arrBms);
 
         coin=new Coin();
@@ -56,9 +63,26 @@ public class GameView extends View {
         coin.setArrBms(coins);
 
 
+        bottom1=new Bottom();
+        bottom1.setWidth(Constants.SCREEN_WIDTH);
+        bottom1.setHeight(25*Constants.SCREEN_HEIGHT/100);
+        bottom1.setX(0);
+        bottom1.setY(Constants.SCREEN_HEIGHT-25*Constants.SCREEN_HEIGHT/100);
+        ArrayList<Bitmap> bottoms=new ArrayList<>();
+        bottoms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.vapor_bottom));
+        bottom1.setArrBms(bottoms);
+        bottom2=new Bottom();
+        bottom2.setWidth(Constants.SCREEN_WIDTH);
+        bottom2.setHeight(25*Constants.SCREEN_HEIGHT/100);
+        bottom2.setX(Constants.SCREEN_WIDTH);
+        bottom2.setY(Constants.SCREEN_HEIGHT-25*Constants.SCREEN_HEIGHT/100);
+        bottom2.setArrBms(bottoms);
+
+
+
         Pipe start=new Pipe();
-        Bitmap imagepipetop=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res,R.drawable.building2),100*Constants.SCREEN_WIDTH/1000,Constants.SCREEN_HEIGHT,true);
-        Bitmap imagepipebot=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res,R.drawable.building1),100*Constants.SCREEN_WIDTH/1000,Constants.SCREEN_HEIGHT,true);
+        Bitmap imagepipetop=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res,R.drawable.vapor_pipe1),100*Constants.SCREEN_WIDTH/1000,Constants.SCREEN_HEIGHT,true);
+        Bitmap imagepipebot=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res,R.drawable.vapor_pipe2),100*Constants.SCREEN_WIDTH/1000,Constants.SCREEN_HEIGHT,true);
         start.setimages(imagepipebot,imagepipetop);
         start.init(400,5,res);
         pipes.add(start);
@@ -85,6 +109,8 @@ public class GameView extends View {
         Pipe.draw(canvas,Constants.PAUSED,pipes,res);
         bird.draw(canvas,Constants.PAUSED);
         coin.draw(canvas,Constants.PAUSED);
+        bottom1.draw(canvas,Constants.PAUSED);
+        bottom2.draw(canvas,Constants.PAUSED);
         handler.postDelayed(r,10);
     }
 

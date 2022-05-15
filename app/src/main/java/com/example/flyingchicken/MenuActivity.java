@@ -3,12 +3,16 @@ package com.example.flyingchicken;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +36,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             Constants.BACKGROUND=R.drawable.background;
         }
         if(view==findViewById(R.id.playbutton)){
+
             Intent i=new Intent(this, MainActivity.class);
             startActivity(i);
             this.finish();
