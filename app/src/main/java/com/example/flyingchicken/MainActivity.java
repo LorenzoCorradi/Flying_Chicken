@@ -17,7 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.google.android.gms.maps.MapFragment;
+
 
 import java.util.concurrent.CompletionService;
 

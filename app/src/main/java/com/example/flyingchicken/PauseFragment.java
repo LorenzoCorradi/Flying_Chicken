@@ -1,5 +1,6 @@
 package com.example.flyingchicken;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -69,6 +70,14 @@ public class PauseFragment extends Fragment  {
                 ((MainActivity)getActivity()).resumePressed();
             }
             });
+        Button mainMenuButton = v.findViewById(R.id.MainMenuButton);
+        Intent intentMainMenu = new Intent(this.getContext(), MainActivity2.class);
+        mainMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intentMainMenu);
+            }
+        });
         return v;
     }
 
