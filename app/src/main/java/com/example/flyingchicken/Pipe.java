@@ -121,14 +121,25 @@ public class Pipe extends BaseObject{
         }
         else {
             Random rn = new Random();
-            int x = oldlast.getH();
-            h = rn.nextInt(7) + x - 3; //l'altezza di differenza fra i tubi varia massimo del 30%
+            int low = oldlast.getH()-3;
+            int high = oldlast.getH()+3;
+            if(low<=4){
+                low=4;
 
-            if (h <= 1) {
+            }
+            if(high>=9){
+                high=9;
+
+            }
+            System.out.println("low: "+low);
+            System.out.println("high: "+high);
+            h = rn.nextInt(high - low) + low; //l'altezza di differenza fra i tubi varia massimo del 30%
+
+            /*if (h <= 1) {
                 h = 2;
             } else if (h >= 10) {
                 h = 9;
-            }
+            }*/
         }
         System.out.println(h);
         return h;

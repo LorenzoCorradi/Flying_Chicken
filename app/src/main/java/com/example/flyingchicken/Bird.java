@@ -13,7 +13,7 @@ public class Bird extends BaseObject{
     public float drop;
     public Bird(){
         this.count=0;
-        this.vFlap=5;
+        this.vFlap=10;
         this.idCurrentBitmap=0;
         this.drop=0;
     }
@@ -48,7 +48,7 @@ public class Bird extends BaseObject{
 
         count++;
         if(this.count==this.vFlap){
-            if(this.idCurrentBitmap==3){
+            if(this.idCurrentBitmap==1){
                 this.idCurrentBitmap=0;
             }
             else{
