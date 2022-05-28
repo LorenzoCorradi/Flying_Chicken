@@ -32,8 +32,8 @@ public class GameView extends View {
         this.setBackground(context.getDrawable(Constants.BACKGROUND));
         bird=new Bird();
 
-        bird.setWidth((100*Constants.SCREEN_WIDTH/1000));
-        bird.setHeight((100*Constants.SCREEN_HEIGHT/1900));
+        bird.setWidth((150*Constants.SCREEN_WIDTH/1000));
+        bird.setHeight((120*Constants.SCREEN_HEIGHT/1900));
         bird.setX(100*Constants.SCREEN_WIDTH/1000);
         bird.setY(Constants.SCREEN_HEIGHT/2-bird.getHeight()/2);
         ArrayList<Bitmap> arrBms=new ArrayList<>();
@@ -42,8 +42,8 @@ public class GameView extends View {
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame2));
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame3));
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame4));*/
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.chicken_frame1));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.chiken_frame2));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.plane1));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.plane2));
         bird.setArrBms(arrBms);
 
         coin=new Coin();
