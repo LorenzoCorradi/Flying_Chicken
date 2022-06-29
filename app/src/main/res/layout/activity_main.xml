@@ -7,6 +7,7 @@
     android:background="@drawable/background2">
 
     <com.example.flyingchicken.GameView
+        android:id="@+id/GameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -59,11 +60,24 @@
         android:id="@+id/fragmentContainerView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="57dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="57dp"
-        android:layout_marginBottom="150dp"
-        android:layout_marginStart="57dp"
-        />
+        android:layout_marginBottom="150dp" />
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerViewEnd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="480dp"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

@@ -69,4 +69,8 @@ public class BaseObject {
     public void setRect(Rect rect) {
         this.rect = rect;
     }
+
+    public boolean touchesPipe(Pipe p){
+        return getRect().intersect(p.getRectTop()) || getRect().intersect(p.getRectBottom());
+    }
 }

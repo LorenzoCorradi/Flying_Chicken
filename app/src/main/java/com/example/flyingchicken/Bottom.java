@@ -18,7 +18,7 @@ public class  Bottom extends BaseObject{
 
 
     public void draw(Canvas canvas, Boolean status){
-        if(!Constants.PAUSED) {
+        if(!status) {
             this.move();
         }
         if(this.x+Constants.SCREEN_WIDTH<=0){

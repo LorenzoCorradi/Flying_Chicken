@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,18 +14,19 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 
 
 import java.util.concurrent.CompletionService;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    FragmentManager fragmentManager=getSupportFragmentManager();
+    FragmentManager fragmentManager = getSupportFragmentManager();
     PauseFragment pausefragment=new PauseFragment();
-
+    GameOverFragment gameOverFragment = new GameOverFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +38,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Constants.SCREEN_WIDTH=dm.widthPixels;
         Constants.SCREEN_HEIGHT=dm.heightPixels;
         setContentView(R.layout.activity_main);
+
         ImageButton pause=(ImageButton) findViewById(R.id.pauseButton);
         pause.setOnClickListener(this);
+
         ImageButton menu=(ImageButton)findViewById(R.id.menuButton);
         menu.setOnClickListener(this);
+
         Constants.PAUSED=false;
         ImageView gameview=findViewById(R.id.imageView);
 
+        TextView txtViewScore = findViewById(R.id.textView4);
 
+        GameView GameView = findViewById(R.id.GameView);
+        GameView.setEventListener(new com.example.flyingchicken.GameView.IMyEventListener() {
+
+            @Override
+            public void onEventOccurred(int score) {
+                if(Constants.GAMEOVER){
+                    txtViewScore.setText("");
+                    FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.fragmentContainerViewEnd, gameOverFragment, "GameOverFragment");
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    fragmentTransaction.commit();
+                }
+                else{
+                    txtViewScore.setText("Score: " + score);
+                }
+            }
+        });
 
     }
 

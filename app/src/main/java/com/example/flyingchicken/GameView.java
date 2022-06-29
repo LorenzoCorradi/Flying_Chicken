@@ -1,14 +1,22 @@
 package com.example.flyingchicken;
 
+import static com.example.flyingchicken.Constants.COLLISIONS;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentActivity;
 
 import androidx.annotation.Nullable;
 
@@ -21,21 +29,37 @@ public class GameView extends View {
     private Coin coin;
     private Bottom bottom1;
     private Bottom bottom2;
+    private int score;
     ArrayList<Pipe> pipes=new ArrayList<>();
     Resources res = getContext().getResources();
 
+    //Metodo per comunicare con la MainActivity
+    public interface IMyEventListener {
+        public void onEventOccurred(int score);
+    }
 
+    private IMyEventListener mEventListener;
 
+    public void setEventListener(IMyEventListener mEventListener) {
+        this.mEventListener = mEventListener;
+    }
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.setBackground(context.getDrawable(Constants.BACKGROUND));
         bird=new Bird();
+        COLLISIONS = true;
+
+        Constants.GAMEOVER = false;
+
+        score = 0;
+        //Toast.makeText(context, "Score:" + score, Toast.LENGTH_SHORT).show();
 
         bird.setWidth((150*Constants.SCREEN_WIDTH/1000));
         bird.setHeight((120*Constants.SCREEN_HEIGHT/1900));
         bird.setX(100*Constants.SCREEN_WIDTH/1000);
         bird.setY(Constants.SCREEN_HEIGHT/2-bird.getHeight()/2);
+        bird.setDead(false);
         ArrayList<Bitmap> arrBms=new ArrayList<>();
 
         /*arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame1));
@@ -99,6 +123,31 @@ public class GameView extends View {
         r=new Runnable() {
             @Override
             public void run() {
+                if(!bird.isDead())
+                for (Pipe pipe : pipes) {
+                    if (bird.touchesPipe(pipe)) {
+                        bird.setDead(true);
+                        Toast.makeText(context, "dead", Toast.LENGTH_SHORT).show();
+                        Constants.GAMEOVER = true;
+                        Constants.SCORE = score;
+                        if (mEventListener != null) {
+                            mEventListener.onEventOccurred(score);
+                        }
+                    }
+                    Float f1 = new Float(bird.getX());
+                    Float f2 = new Float((pipe.getX() + (float) (pipe.getWidth())));
+                    if(f1.equals(f2)){
+                        //Toast.makeText(context, "score" + score, Toast.LENGTH_SHORT).show();
+                        score++;
+                        if (mEventListener != null) {
+                            mEventListener.onEventOccurred(score);
+                        }
+                    }
+
+                }
+
+
+
                 invalidate();
             }
         };
@@ -106,24 +155,25 @@ public class GameView extends View {
     public void draw(Canvas canvas){
         super.draw(canvas);
 
-        Pipe.draw(canvas,Constants.PAUSED,pipes,res);
-        bird.draw(canvas,Constants.PAUSED);
-        coin.draw(canvas,Constants.PAUSED);
-        bottom1.draw(canvas,Constants.PAUSED);
-        bottom2.draw(canvas,Constants.PAUSED);
+        boolean status = Constants.PAUSED || Constants.GAMEOVER; //Se falsa le draw disegnano
+
+        bird.draw(canvas, status && bird.getY() > Constants.SCREEN_HEIGHT); //Si ferma quando e' caduto del tutto
+
+        Pipe.draw(canvas, status,pipes,res);
+        coin.draw(canvas, status);
+        bottom1.draw(canvas, status);
+        bottom2.draw(canvas, status);
         handler.postDelayed(r,10);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(!bird.isDead())
         if(event.getAction()==MotionEvent.ACTION_UP){
             if(bird.getY() + bird.getHeight() / 2 > 0)
                 bird.setDrop(-15);
         }
         return true;
     }
-
-
-
 
 }
