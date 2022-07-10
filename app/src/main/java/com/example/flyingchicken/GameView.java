@@ -30,12 +30,13 @@ public class GameView extends View {
     private Bottom bottom1;
     private Bottom bottom2;
     private int score;
+    boolean first_touch = false;
     ArrayList<Pipe> pipes=new ArrayList<>();
     Resources res = getContext().getResources();
 
     //Metodo per comunicare con la MainActivity
     public interface IMyEventListener {
-        public void onEventOccurred(int score);
+        public void onEventOccurred(int score, boolean started);
     }
 
     private IMyEventListener mEventListener;
@@ -44,7 +45,7 @@ public class GameView extends View {
         this.mEventListener = mEventListener;
     }
 
-    public GameView(Context context, @Nullable AttributeSet attrs) {
+        public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.setBackground(context.getDrawable(Constants.BACKGROUND));
         bird=new Bird();
@@ -127,11 +128,11 @@ public class GameView extends View {
                 for (Pipe pipe : pipes) {
                     if (bird.touchesPipe(pipe)) {
                         bird.setDead(true);
-                        Toast.makeText(context, "dead", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "dead", Toast.LENGTH_SHORT).show();
                         Constants.GAMEOVER = true;
                         Constants.SCORE = score;
                         if (mEventListener != null) {
-                            mEventListener.onEventOccurred(score);
+                            mEventListener.onEventOccurred(score, first_touch);
                         }
                     }
                     Float f1 = new Float(bird.getX());
@@ -139,8 +140,9 @@ public class GameView extends View {
                     if(f1.equals(f2)){
                         //Toast.makeText(context, "score" + score, Toast.LENGTH_SHORT).show();
                         score++;
+                        Constants.SCORE = score;
                         if (mEventListener != null) {
-                            mEventListener.onEventOccurred(score);
+                            mEventListener.onEventOccurred(score, first_touch);
                         }
                     }
 
@@ -157,17 +159,33 @@ public class GameView extends View {
 
         boolean status = Constants.PAUSED || Constants.GAMEOVER; //Se falsa le draw disegnano
 
-        bird.draw(canvas, status && bird.getY() > Constants.SCREEN_HEIGHT); //Si ferma quando e' caduto del tutto
+        if(!first_touch){
+            bird.draw(canvas, status);
+            bottom1.draw(canvas, status);
+            bottom2.draw(canvas, status);
 
-        Pipe.draw(canvas, status,pipes,res);
-        coin.draw(canvas, status);
-        bottom1.draw(canvas, status);
-        bottom2.draw(canvas, status);
+            if(bird.getY() > Constants.SCREEN_HEIGHT / 2 + 20){
+                bird.setDrop(-10); //Lo faccio saltare un po meno
+            }
+        }
+        else{
+            bird.draw(canvas, (status && !Constants.GAMEOVER) || bird.getY() > Constants.SCREEN_HEIGHT); //Si ferma quando e' caduto del tutto
+
+            Pipe.draw(canvas, status,pipes,res);
+            coin.draw(canvas, status);
+            bottom1.draw(canvas, status);
+            bottom2.draw(canvas, status);
+        }
+
         handler.postDelayed(r,10);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(!first_touch) {
+            first_touch = true;
+            mEventListener.onEventOccurred(score, first_touch);
+        }
         if(!bird.isDead())
         if(event.getAction()==MotionEvent.ACTION_UP){
             if(bird.getY() + bird.getHeight() / 2 > 0)

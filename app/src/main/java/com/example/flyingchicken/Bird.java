@@ -49,7 +49,8 @@ public class Bird extends BaseObject{
     public void setArrBms(ArrayList<Bitmap> arrBms) {
         this.arrBms = arrBms;
         for(int i=0;i<arrBms.size();i++){
-            this.arrBms.set(i,Bitmap.createScaledBitmap(this.arrBms.get(i),this.width,this.height,true));
+            Bitmap sup = Bitmap.createScaledBitmap(arrBms.get(i),this.width,this.height,true);
+            this.arrBms.set(i,sup);
         }
     }
 

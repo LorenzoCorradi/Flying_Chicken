@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PauseFragment pausefragment=new PauseFragment();
     GameOverFragment gameOverFragment = new GameOverFragment();
 
+    TextView txtViewScore; //Messo qui cosi lo tolgo il punteggio quando va in pausa
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +50,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Constants.PAUSED=false;
         ImageView gameview=findViewById(R.id.imageView);
 
-        TextView txtViewScore = findViewById(R.id.textView4);
+        txtViewScore = findViewById(R.id.textView4);
+        txtViewScore.setText("Tap to Start");
 
         GameView GameView = findViewById(R.id.GameView);
         GameView.setEventListener(new com.example.flyingchicken.GameView.IMyEventListener() {
 
             @Override
-            public void onEventOccurred(int score) {
+            public void onEventOccurred(int score, boolean started) {
                 if(Constants.GAMEOVER){
                     txtViewScore.setText("");
                     FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
@@ -62,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     fragmentTransaction.commit();
                 }
-                else{
-                    txtViewScore.setText("Score: " + score);
+                else if(started){
+                    txtViewScore.setText(String.format("%d", score));
                 }
             }
         });
@@ -77,12 +80,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        txtViewScore.setText(String.format("%d", Constants.SCORE));
     }
     @Override
     public void onClick(View view) {
 
         if(view==findViewById(R.id.pauseButton)){
             Constants.PAUSED=(!Constants.PAUSED);
+
+            txtViewScore.setText("");
+
             FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
             if(Constants.PAUSED) {
                 fragmentTransaction.add(R.id.fragmentContainerView2, pausefragment, "PauseFragment");
