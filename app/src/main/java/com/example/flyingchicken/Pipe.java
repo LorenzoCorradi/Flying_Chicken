@@ -62,10 +62,10 @@ public class Pipe extends BaseObject{
 
     //Metodi per ritoranare il rettangolo sopra e quello sotto. (PER COLLISIONI)
     public Rect getRectTop() {
-        return new Rect((int)x, 0, (int)x + width, (int)(10 - h - 0.8) * 10 * Constants.SCREEN_HEIGHT / 100);
+        return new Rect((int)x, 0, (int)x + width, (int)((10 - h - 0.8) * 10 * Constants.SCREEN_HEIGHT / 100));
     }
     public Rect getRectBottom() {
-        return new Rect((int)x, (int)(10 - h - 0.8 + 2) * 10 * Constants.SCREEN_HEIGHT / 100, (int)x + width, Constants.SCREEN_HEIGHT);
+        return new Rect((int)x, (int)((10-h+0.8)*10*Constants.SCREEN_HEIGHT/100), (int)x + width, Constants.SCREEN_HEIGHT);
     }
 
 

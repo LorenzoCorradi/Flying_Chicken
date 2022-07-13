@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -26,6 +27,7 @@ public class GameView extends View {
     private Bird bird;
     private Handler handler;
     private Runnable r;
+    private Runnable r2;
     private Coin coin;
     private Bottom bottom1;
     private Bottom bottom2;
@@ -67,8 +69,8 @@ public class GameView extends View {
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame2));
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame3));
         arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame4));*/
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.plane1));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.plane2));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.plane_v2_1));
+        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.plane_v2_2));
         bird.setArrBms(arrBms);
 
         coin=new Coin();
@@ -124,34 +126,64 @@ public class GameView extends View {
         r=new Runnable() {
             @Override
             public void run() {
-                if(!bird.isDead())
-                for (Pipe pipe : pipes) {
-                    if (bird.touchesPipe(pipe)) {
-                        bird.setDead(true);
-                        //Toast.makeText(context, "dead", Toast.LENGTH_SHORT).show();
-                        Constants.GAMEOVER = true;
-                        Constants.SCORE = score;
-                        if (mEventListener != null) {
-                            mEventListener.onEventOccurred(score, first_touch);
-                        }
-                    }
-                    Float f1 = new Float(bird.getX());
-                    Float f2 = new Float((pipe.getX() + (float) (pipe.getWidth())));
-                    if(f1.equals(f2)){
-                        //Toast.makeText(context, "score" + score, Toast.LENGTH_SHORT).show();
-                        score++;
-                        Constants.SCORE = score;
-                        if (mEventListener != null) {
-                            mEventListener.onEventOccurred(score, first_touch);
-                        }
-                    }
-
-                }
+//                if(!bird.isDead())
+//                for (Pipe pipe : pipes) {
+//                    if (bird.touchesPipe(pipe)) {
+//                        bird.setDead(true);
+//                        //Toast.makeText(context, "dead", Toast.LENGTH_SHORT).show();
+//                        Constants.GAMEOVER = true;
+//                        Constants.SCORE = score;
+//                        if (mEventListener != null) {
+//                            mEventListener.onEventOccurred(score, first_touch);
+//                        }
+//                    }
+//                    Float f1 = new Float(bird.getX());
+//                    Float f2 = new Float((pipe.getX() + (float) (pipe.getWidth())));
+//                    if(f1.equals(f2)){
+//                        //Toast.makeText(context, "score" + score, Toast.LENGTH_SHORT).show();
+//                        score++;
+//                        Constants.SCORE = score;
+//                        if (mEventListener != null) {
+//                            mEventListener.onEventOccurred(score, first_touch);
+//                        }
+//                    }
+//
+//                }
 
 
 
                 invalidate();
             }
+
+        };
+        r2=new Runnable() {
+            @Override
+            public void run() {
+                if(!bird.isDead())
+                    for (Pipe pipe : pipes) {
+                        if (bird.touchesPipe(pipe)) {
+                            bird.setDead(true);
+                            //Toast.makeText(context, "dead", Toast.LENGTH_SHORT).show();
+                            Constants.GAMEOVER = true;
+                            Constants.SCORE = score;
+                            if (mEventListener != null) {
+                                mEventListener.onEventOccurred(score, first_touch);
+                            }
+                        }
+                        Float f1 = new Float(bird.getX());
+                        Float f2 = new Float((pipe.getX() + (float) (pipe.getWidth())));
+                        if(f1.equals(f2)){
+                            //Toast.makeText(context, "score" + score, Toast.LENGTH_SHORT).show();
+                            score++;
+                            Constants.SCORE = score;
+                            if (mEventListener != null) {
+                                mEventListener.onEventOccurred(score, first_touch);
+                            }
+                        }
+
+                    }
+            }
+
         };
     }
     public void draw(Canvas canvas){
@@ -160,24 +192,36 @@ public class GameView extends View {
         boolean status = Constants.PAUSED || Constants.GAMEOVER; //Se falsa le draw disegnano
 
         if(!first_touch){
-            bird.draw(canvas, status);
             bottom1.draw(canvas, status);
             bottom2.draw(canvas, status);
+            //Paint myPaint = new Paint();              codice per vedere l'hitbox
+            //myPaint.setColor(Color.rgb(0, 0, 0));
+            //canvas.drawRect(bird.getRect(),myPaint);
+            bird.draw(canvas, status);
 
             if(bird.getY() > Constants.SCREEN_HEIGHT / 2 + 20){
                 bird.setDrop(-10); //Lo faccio saltare un po meno
             }
         }
         else{
+            //Paint myPaint = new Paint();                           //codice per vedere l'hitbox
+            //myPaint.setColor(Color.rgb(0, 0, 0));
+            //canvas.drawRect(bird.getRect(),myPaint);
             bird.draw(canvas, (status && !Constants.GAMEOVER) || bird.getY() > Constants.SCREEN_HEIGHT); //Si ferma quando e' caduto del tutto
-
             Pipe.draw(canvas, status,pipes,res);
+            //for (Pipe pipe : pipes){                                    codice per vedere l'hitbox
+            //    canvas.drawRect( pipe.getRectBottom(),myPaint);
+            //    canvas.drawRect( pipe.getRectTop(),myPaint);
+            //}
+
             coin.draw(canvas, status);
             bottom1.draw(canvas, status);
+
             bottom2.draw(canvas, status);
         }
 
         handler.postDelayed(r,10);
+        r2.run();
     }
 
     @Override
