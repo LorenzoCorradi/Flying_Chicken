@@ -10,6 +10,9 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Constants.SCREEN_HEIGHT=dm.heightPixels;
         setContentView(R.layout.activity_main);
 
+
+
         ImageButton pause=(ImageButton) findViewById(R.id.pauseButton);
         pause.setOnClickListener(this);
 
@@ -57,16 +62,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GameView.setEventListener(new com.example.flyingchicken.GameView.IMyEventListener() {
 
             @Override
-            public void onEventOccurred(int score, boolean started) {
-                if(Constants.GAMEOVER){
-                    txtViewScore.setText("");
+            public void onEventOccurred(int score, boolean started,boolean GameOverAdded) {
+                if(Constants.GAMEOVER && !GameOverAdded){
+                   txtViewScore.setText("");
                     FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                     fragmentTransaction.add(R.id.fragmentContainerViewEnd, gameOverFragment, "GameOverFragment");
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     fragmentTransaction.commit();
                 }
-                else if(started){
+                else if(started && !Constants.GAMEOVER){
                     txtViewScore.setText(String.format("%d", score));
+                }else{
+                    if(!started && !Constants.GAMEOVER){
+                        txtViewScore.setText("Tap to Start");
+                    }
                 }
             }
         });
@@ -81,6 +90,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         txtViewScore.setText(String.format("%d", Constants.SCORE));
+    }
+    public void restartPressed(){
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+        fragmentTransaction.remove(gameOverFragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        //fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
     @Override
     public void onClick(View view) {

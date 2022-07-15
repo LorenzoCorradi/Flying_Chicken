@@ -12,6 +12,7 @@ public class Constants {
     public static Boolean COLLISIONS;
     public static int BACKGROUND=R.drawable.vapor_background;
     public static int SCORE;
+    public static Boolean RESTART;
 
 
 }

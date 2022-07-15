@@ -27,14 +27,14 @@ public class Bird extends BaseObject{
         this.idCurrentBitmap=0;
         this.drop=0;
     }
-    public void draw(Canvas canvas,Boolean status){
+    public void draw(Canvas canvas){
+        canvas.drawBitmap(this.getBm(),this.x,this.y,null);
+    }
+    public void totalMove(Boolean status){
         if(status==false){
             drop();
         }
-
-        canvas.drawBitmap(this.getBm(),this.x,this.y,null);
     }
-
     private void drop() {
         if(y + drop + height / 2 < SCREEN_HEIGHT){
             this.drop+=0.6;

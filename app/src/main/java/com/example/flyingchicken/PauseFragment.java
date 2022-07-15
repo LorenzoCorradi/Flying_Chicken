@@ -67,6 +67,7 @@ public class PauseFragment extends Fragment  {
         resume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 ((MainActivity)getActivity()).resumePressed();
             }
             });

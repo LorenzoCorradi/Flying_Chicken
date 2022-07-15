@@ -19,7 +19,7 @@ public class Pipe extends BaseObject{
         this.speed = 5;
     }
 
-    public void init(float lastx,int h,android.content.res.Resources res){
+    public void init(float lastx,int h){
         this.setX(lastx+600);
         this.h=h;
         this.setWidth((100*Constants.SCREEN_WIDTH/1000));
@@ -36,21 +36,7 @@ public class Pipe extends BaseObject{
         return last;
     }
     static void draw(Canvas canvas, Boolean status,ArrayList<Pipe> pipes,android.content.res.Resources res){
-        if(status==false){
-                int count=0;
-            for(Pipe p:pipes){
-               if(p.x+p.width<0){
-                    Pipe last=getlast(pipes);
-                    int newh=newH(last);
-                    p.setH(newh);
-                    p.init(last.getX(),newh,res);
-                }
-                p.move();
-                count++;
-            }
 
-
-        }
         for(Pipe p:pipes){
            canvas.drawBitmap(p.imageBottom,p.x,(float)(10-p.h+0.8)*10*Constants.SCREEN_HEIGHT/100,null);
            canvas.drawBitmap(p.imageTop,p.x,(float)(10-p.h-0.8)*10*Constants.SCREEN_HEIGHT/100-p.getImageTop().getHeight(),null);
@@ -60,6 +46,23 @@ public class Pipe extends BaseObject{
 
     }
 
+    static void totalMove(ArrayList<Pipe> pipes,Boolean status){
+        if(status==false){
+            int count=0;
+            for(Pipe p:pipes){
+                if(p.x+p.width<0){
+                    Pipe last=getlast(pipes);
+                    int newh=newH(last);
+                    p.setH(newh);
+                    p.init(last.getX(),newh);
+                }
+                p.move();
+                count++;
+            }
+
+
+        }
+    }
     //Metodi per ritoranare il rettangolo sopra e quello sotto. (PER COLLISIONI)
     public Rect getRectTop() {
         return new Rect((int)x, 0, (int)x + width, (int)((10 - h - 0.8) * 10 * Constants.SCREEN_HEIGHT / 100));

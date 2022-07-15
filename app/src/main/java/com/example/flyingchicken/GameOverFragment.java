@@ -77,6 +77,14 @@ public class GameOverFragment extends Fragment {
                 startActivity(intentMainMenu);
             }
         });
+        Button RestartButton = v.findViewById(R.id.RestartButton);
+        RestartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Constants.RESTART=true;
+                ((MainActivity)getActivity()).restartPressed();
+            }
+        });
         return v;
     }
 }

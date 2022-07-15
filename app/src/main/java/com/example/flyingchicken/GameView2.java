@@ -31,6 +31,7 @@ public class GameView2 extends View {
             if(bird.getY() > Constants.SCREEN_HEIGHT / 2f + 100){
                 bird.setDrop(-10);
             }
+            bird.totalMove(false);
 
             invalidate();
         }
@@ -105,7 +106,7 @@ public class GameView2 extends View {
     @Override
     public void onDraw(Canvas canvas){
       super.onDraw(canvas);
-      bird.draw(canvas, false);
+      bird.draw(canvas);
       handler.postDelayed(r, 10);
     }
 

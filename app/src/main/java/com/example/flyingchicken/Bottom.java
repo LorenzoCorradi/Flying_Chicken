@@ -18,15 +18,17 @@ public class  Bottom extends BaseObject{
 
 
     public void draw(Canvas canvas, Boolean status){
+
+        canvas.drawBitmap(this.getBm(),this.x,this.y,null);
+    }
+    public void totalMove(Boolean status){
         if(!status) {
             this.move();
         }
         if(this.x+Constants.SCREEN_WIDTH<=0){
             this.x=Constants.SCREEN_WIDTH;
         }
-        canvas.drawBitmap(this.getBm(),this.x,this.y,null);
     }
-
 
     public ArrayList<Bitmap> getArrBms() {
         return arrBms;
