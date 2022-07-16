@@ -45,6 +45,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     boolean first_touch = false;
     boolean GameOverAdded=false;
     ArrayList<Pipe> pipes=new ArrayList<>();
+    ArrayList<Coin> coins=new ArrayList<>();
     Resources res = getContext().getResources();
 
 
@@ -99,18 +100,28 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         coin=new Coin();
         coin.setWidth((2*100*Constants.SCREEN_WIDTH/1000));
         coin.setHeight((100*Constants.SCREEN_HEIGHT/1900));
-        coin.setX(100*Constants.SCREEN_WIDTH/1000+200);
-        coin.setY(Constants.SCREEN_HEIGHT/2-bird.getHeight()/2);
-        ArrayList<Bitmap> coins=new ArrayList<>();
-        coins.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin1));
-        coins.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin2));
-        coins.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin3));
-        coins.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin4));
-        coins.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin5));
-        coins.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin6));
-        coins.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin7));
-        coins.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin8));
-        coin.setArrBms(coins);
+        coin.setX(1250);
+        coin.setY(Constants.SCREEN_HEIGHT/2);
+        ArrayList<Bitmap> coinsbit=new ArrayList<>();
+        coinsbit.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin1));
+        coinsbit.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin2));
+        coinsbit.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin3));
+        coinsbit.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin4));
+        coinsbit.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin5));
+        coinsbit.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin6));
+        coinsbit.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin7));
+        coinsbit.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.coin8));
+        coin.setArrBms(coinsbit);
+        coin.setH(5);
+        coins.add(coin);
+
+
+        for(int i=0; i<2;i++){
+            Coin last=new Coin();
+            last.init(coins.get(i).getX(),Coin.newH());
+            last.setArrBms(coinsbit);
+            coins.add(last);
+        }
 
 
         bottom1=new Bottom();
@@ -187,7 +198,10 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
             //    canvas.drawRect( pipe.getRectTop(),myPaint);
             //}
 
-            coin.draw(canvas, status);
+            for(Coin coin:coins){
+                coin.draw(canvas,status);
+            }
+            //coin.draw(canvas, status);
             bottom1.draw(canvas, status);
 
             bottom2.draw(canvas, status);
@@ -232,6 +246,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
             bird.totalMove((status && !Constants.GAMEOVER) || bird.getY() > Constants.SCREEN_HEIGHT); //Si ferma quando e' caduto del tutto
             Pipe.totalMove( pipes,status);
 
+            Coin.totalMove(coins,status);
            // coin.draw(canvas, status);
             bottom1.totalMove( status);
 
@@ -305,6 +320,16 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
                 pipes.get(i).init(pipes.get(i-1).getX(),Pipe.newH(pipes.get(i)));
             }
 
+        }
+
+        for(int i=0; i<3;i++){
+           if(i==0){
+               coins.get(i).setX(1250);
+               coins.get(i).setH(5);
+           }else{
+               coins.get(i).init(coins.get(i-1).getX(),Coin.newH());
+
+           }
         }
 
     }
