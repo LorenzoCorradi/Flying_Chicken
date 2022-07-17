@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GameOverFragment gameOverFragment = new GameOverFragment();
 
     TextView txtViewScore; //Messo qui cosi lo tolgo il punteggio quando va in pausa
+    TextView coins;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         txtViewScore = findViewById(R.id.textView4);
         txtViewScore.setText("Tap to Start");
+        coins=findViewById(R.id.coinView);
+        coins.setText(String.format("%d ", Constants.COINS));
 
         GameView GameView = findViewById(R.id.GameView);
         GameView.setEventListener(new com.example.flyingchicken.GameView.IMyEventListener() {
 
             @Override
-            public void onEventOccurred(int score, boolean started,boolean GameOverAdded) {
+            public void onEventOccurred(int score, boolean started,boolean GameOverAdded,boolean touchedCoin) {
                 if(Constants.GAMEOVER && !GameOverAdded){
                    txtViewScore.setText("");
                     FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
@@ -72,10 +75,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else if(started && !Constants.GAMEOVER){
                     txtViewScore.setText(String.format("%d", score));
+
                 }else{
                     if(!started && !Constants.GAMEOVER){
                         txtViewScore.setText("Tap to Start");
                     }
+                }
+                if(touchedCoin){
+                    coins.setText(String.format("%d ", Constants.COINS));
                 }
             }
         });

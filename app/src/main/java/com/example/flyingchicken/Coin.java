@@ -13,12 +13,14 @@ public class  Coin extends BaseObject{
     public float drop;
     int h;
     float speed;
+    boolean touched;
     public Coin(){
         this.speed=5;
         this.count=0;
         this.vFlap=5;
         this.idCurrentBitmap=0;
         this.drop=0;
+        touched=false;
 
     }
     public void draw(Canvas canvas,Boolean status){
@@ -81,7 +83,13 @@ public class  Coin extends BaseObject{
                     int newh=newH();
                     c.setH(newh);
                     c.init(last.getX(),newh);
+                    c.touched=false;
+                    c.drop=0;
                 }
+                if(c.touched){
+                    c.drop=40;
+                }
+                c.drop();
                 c.move();
                 count++;
             }
@@ -91,6 +99,9 @@ public class  Coin extends BaseObject{
     }
     public void move(){
         this.x=this.x-speed;
+    }
+    public void drop(){
+        this.y=this.y-this.drop;
     }
     public int getH() {
         return h;

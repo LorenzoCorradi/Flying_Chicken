@@ -81,6 +81,21 @@
         android:text="0"
         android:textSize="34sp" />
 
+    <TextView
+        android:id="@+id/coinView"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/coin_rectagle"
+
+
+        android:drawableLeft="@drawable/ic_coin2"
+        android:text="coins "
+        android:textAlignment="textEnd"
+        android:textColor="#013220"
+        android:textSize="28sp" />
+
 
 </RelativeLayout>
 

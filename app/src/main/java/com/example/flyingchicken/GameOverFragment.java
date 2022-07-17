@@ -68,6 +68,8 @@ public class GameOverFragment extends Fragment {
 
         TextView textViewScore = v.findViewById(R.id.textViewScore);
         textViewScore.setText("Score: " + Constants.SCORE);
+        TextView textViewBestScore = v.findViewById(R.id.textViewBestScore);
+        textViewBestScore.setText("Best: " + Constants.BESTSCORE);
 
         Button mainMenuButton = v.findViewById(R.id.MainMenuButton);
         Intent intentMainMenu = new Intent(this.getContext(), MainActivity2.class);

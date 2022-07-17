@@ -38,8 +38,8 @@ public class Pipe extends BaseObject{
     static void draw(Canvas canvas, Boolean status,ArrayList<Pipe> pipes,android.content.res.Resources res){
 
         for(Pipe p:pipes){
-           canvas.drawBitmap(p.imageBottom,p.x,(float)(10-p.h+0.8)*10*Constants.SCREEN_HEIGHT/100,null);
-           canvas.drawBitmap(p.imageTop,p.x,(float)(10-p.h-0.8)*10*Constants.SCREEN_HEIGHT/100-p.getImageTop().getHeight(),null);
+           canvas.drawBitmap(p.imageBottom,p.x,(float)(10-p.h+0.9)*10*Constants.SCREEN_HEIGHT/100,null);
+           canvas.drawBitmap(p.imageTop,p.x,(float)(10-p.h-0.9)*10*Constants.SCREEN_HEIGHT/100-p.getImageTop().getHeight(),null);
         }
 
 
@@ -65,10 +65,10 @@ public class Pipe extends BaseObject{
     }
     //Metodi per ritoranare il rettangolo sopra e quello sotto. (PER COLLISIONI)
     public Rect getRectTop() {
-        return new Rect((int)x, 0, (int)x + width, (int)((10 - h - 0.8) * 10 * Constants.SCREEN_HEIGHT / 100));
+        return new Rect((int)x, 0, (int)x + width, (int)((10 - h - 0.9) * 10 * Constants.SCREEN_HEIGHT / 100));
     }
     public Rect getRectBottom() {
-        return new Rect((int)x, (int)((10-h+0.8)*10*Constants.SCREEN_HEIGHT/100), (int)x + width, Constants.SCREEN_HEIGHT);
+        return new Rect((int)x, (int)((10-h+0.9)*10*Constants.SCREEN_HEIGHT/100), (int)x + width, Constants.SCREEN_HEIGHT);
     }
 
 

@@ -44,6 +44,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     private int score;
     boolean first_touch = false;
     boolean GameOverAdded=false;
+    boolean touchedCoin=false;
     ArrayList<Pipe> pipes=new ArrayList<>();
     ArrayList<Coin> coins=new ArrayList<>();
     Resources res = getContext().getResources();
@@ -54,7 +55,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
 
     //Metodo per comunicare con la MainActivity
     public interface IMyEventListener {
-        public void onEventOccurred(int score, boolean started,boolean GameOverAdded );
+        public void onEventOccurred(int score, boolean started,boolean GameOverAdded,boolean touchedCoin );
     }
 
     private IMyEventListener mEventListener;
@@ -167,14 +168,15 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         if (bird.isDead() && !GameOverAdded) {
             //Toast.makeText(context, "dead", Toast.LENGTH_SHORT).show();
             if (mEventListener != null) {
-                mEventListener.onEventOccurred(score, first_touch,GameOverAdded);
+                mEventListener.onEventOccurred(score, first_touch,GameOverAdded,touchedCoin);
             }
             GameOverAdded = true;
         }
         else{
             if (mEventListener != null) {
-                mEventListener.onEventOccurred(score, first_touch,GameOverAdded);
+                mEventListener.onEventOccurred(score, first_touch,GameOverAdded,touchedCoin);
             }
+            touchedCoin=false;
         }
 
 
@@ -216,7 +218,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         if(!first_touch) {
             first_touch = true;
             Constants.RESTART=false;
-            mEventListener.onEventOccurred(score, first_touch, GameOverAdded);
+            mEventListener.onEventOccurred(score, first_touch, GameOverAdded,touchedCoin);
         }
         if(!bird.isDead()){
             if(event.getAction()==MotionEvent.ACTION_UP){
@@ -258,6 +260,9 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
                     bird.setDead(true);
                     Constants.GAMEOVER = true;
                     Constants.SCORE = score;
+                    if(score>Constants.BESTSCORE){
+                        Constants.BESTSCORE=score;
+                    }
 
                 }
                 Float f1 = new Float(bird.getX());
@@ -268,6 +273,13 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
 
                 }
 
+            }
+            for(Coin coin :coins){
+                if(bird.touchesCoin(coin) && !touchedCoin && !coin.touched){
+                    coin.touched=true;
+                    Constants.COINS++;
+                    touchedCoin=true;
+                }
             }
         }
     }
@@ -323,6 +335,9 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         for(int i=0; i<3;i++){
+            coins.get(i).touched=false;
+            coins.get(i).drop=0;
+            coins.get(i).setY(Constants.SCREEN_HEIGHT/2);
            if(i==0){
                coins.get(i).setX(1250);
                coins.get(i).setH(5);

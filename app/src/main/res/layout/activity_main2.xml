@@ -1,37 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".MainActivity2">
-<!--
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />-->
+    android:background="@color/white">
 
-
-    <view
-        class="com.example.flyingchicken.GameView2"
-        android:id="@+id/view"
+    <com.example.flyingchicken.GameView2
+        android:id="@+id/GameView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
 
 
     <Button
         android:id="@+id/playButton"
         android:layout_width="172dp"
         android:layout_height="78dp"
+        android:background="@drawable/rectangle_selector"
         android:text="PLAY"
+        android:textColor="#013220"
+        android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -48,15 +37,15 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
 
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/rectangle_selector"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        app:srcCompat="@drawable/ic_menu_icon" />
+        android:src="@drawable/ic_menu_icon" />
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

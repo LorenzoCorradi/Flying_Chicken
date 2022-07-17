@@ -73,4 +73,7 @@ public class BaseObject {
     public boolean touchesPipe(Pipe p){
         return getRect().intersect(p.getRectTop()) || getRect().intersect(p.getRectBottom());
     }
+    public boolean touchesCoin(Coin c){
+        return getRect().intersect(c.getRect());
+    }
 }

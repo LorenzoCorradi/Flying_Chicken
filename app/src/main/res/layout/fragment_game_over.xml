@@ -48,5 +48,13 @@
         android:text="SCORE"
         android:textAlignment="center"
         android:textSize="34sp" />
+    <TextView
+        android:id="@+id/textViewBestScore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="310dp"
+        android:text="BEST"
+        android:textAlignment="center"
+        android:textSize="34sp" />
 
 </FrameLayout>
