@@ -144,8 +144,7 @@ public class Pipe extends BaseObject{
                 high=9;
 
             }
-            System.out.println("low: "+low);
-            System.out.println("high: "+high);
+
             h = rn.nextInt(high - low) + low; //l'altezza di differenza fra i tubi varia massimo del 30%
 
             /*if (h <= 1) {
@@ -154,7 +153,6 @@ public class Pipe extends BaseObject{
                 h = 9;
             }*/
         }
-        System.out.println(h);
         return h;
 
     }

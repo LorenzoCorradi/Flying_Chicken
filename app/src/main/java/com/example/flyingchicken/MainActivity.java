@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.concurrent.CompletionService;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView txtViewScore; //Messo qui cosi lo tolgo il punteggio quando va in pausa
     TextView coins;
 
+    DataBaseHelper dataBaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +48,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Constants.SCREEN_HEIGHT=dm.heightPixels;
         setContentView(R.layout.activity_main);
 
+        dataBaseHelper=new DataBaseHelper(MainActivity.this);
+        dataBaseHelper.checkAndUpdate();
 
+        int monete=dataBaseHelper.getCoins();
+        if(monete==-1){
+            Toast.makeText(MainActivity.this,"Errore DataBase",Toast.LENGTH_SHORT).show();
+        }else{
+            Constants.COINS=monete;
+        }
+
+        int bestScore= dataBaseHelper.getBestScore();
+        if(bestScore==-1){
+            Toast.makeText(MainActivity.this,"Errore DataBase",Toast.LENGTH_SHORT).show();
+        }else{
+            Constants.BESTSCORE=bestScore;
+        }
 
         ImageButton pause=(ImageButton) findViewById(R.id.pauseButton);
         pause.setOnClickListener(this);
@@ -72,6 +90,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fragmentTransaction.add(R.id.fragmentContainerViewEnd, gameOverFragment, "GameOverFragment");
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     fragmentTransaction.commit();
+                    if(dataBaseHelper.setCoins(Constants.COINS)==-1){
+                        Toast.makeText(MainActivity.this,"Errore DataBase",Toast.LENGTH_SHORT).show();
+                    }
+                    if(Constants.SCORE>Constants.BESTSCORE){
+                        if(dataBaseHelper.setBestScore(Constants.SCORE)==-1){
+                            Toast.makeText(MainActivity.this,"Errore DataBase",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Constants.BESTSCORE=Constants.SCORE;
+                        }
+                    }
+
                 }
                 else if(started && !Constants.GAMEOVER){
                     txtViewScore.setText(String.format("%d", score));

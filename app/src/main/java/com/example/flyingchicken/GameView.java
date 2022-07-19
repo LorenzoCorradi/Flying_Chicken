@@ -260,9 +260,9 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
                     bird.setDead(true);
                     Constants.GAMEOVER = true;
                     Constants.SCORE = score;
-                    if(score>Constants.BESTSCORE){
+ /*                   if(score>Constants.BESTSCORE){
                         Constants.BESTSCORE=score;
-                    }
+                    }*/
 
                 }
                 Float f1 = new Float(bird.getX());
@@ -309,7 +309,6 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     }
     public void drawFPS(Canvas canvas){
         String averageFPS=Double.toString(gameLoop.getAverageFPS());
-        System.out.println(averageFPS);
         Paint paint=new Paint();
         int color= ContextCompat.getColor(context,R.color.purple_200);
         paint.setColor(color);
