@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dataBaseHelper=new DataBaseHelper(MainActivity.this);
         dataBaseHelper.checkAndUpdate();
 
+        for (Fragment fragment : fragmentManager.getFragments()) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+
         int monete=dataBaseHelper.getCoins();
         if(monete==-1){
             Toast.makeText(MainActivity.this,"Errore DataBase",Toast.LENGTH_SHORT).show();
@@ -85,11 +89,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onEventOccurred(int score, boolean started,boolean GameOverAdded,boolean touchedCoin) {
                 if(Constants.GAMEOVER && !GameOverAdded){
-                   txtViewScore.setText("");
-                    FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                    if(getFragmentManager().findFragmentById(R.id.fragmentContainerViewEnd)!=null){
+                        getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.fragmentContainerViewEnd)).commit();
+                    }
+                    txtViewScore.setText("");
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.add(R.id.fragmentContainerViewEnd, gameOverFragment, "GameOverFragment");
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     fragmentTransaction.commit();
+
+
                     if(dataBaseHelper.setCoins(Constants.COINS)==-1){
                         Toast.makeText(MainActivity.this,"Errore DataBase",Toast.LENGTH_SHORT).show();
                     }
@@ -156,6 +166,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view==findViewById(R.id.menuButton)){
             Constants.PAUSED=(!Constants.PAUSED);
+            for (Fragment fragment : fragmentManager.getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            }
+
             Intent i=new Intent(this, MenuActivity.class);
             startActivity(i);
             this.finish();

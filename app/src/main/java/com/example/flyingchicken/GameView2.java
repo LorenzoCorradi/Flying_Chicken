@@ -40,7 +40,7 @@ public class GameView2 extends View {
     public GameView2(Context context) {
         super(context);
 
-        this.setBackground(context.getDrawable(Constants.BACKGROUND));
+        this.setBackground(context.getDrawable(R.drawable.vapor_background));
 
 
         bird = new Bird();

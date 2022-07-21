@@ -2,7 +2,9 @@ package com.example.flyingchicken;
 
 import static com.example.flyingchicken.Constants.SCREEN_HEIGHT;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class Bird extends BaseObject{
 
     public Bird(){
         this.count=0;
-        this.vFlap=10;
+        this.vFlap=5;
         this.idCurrentBitmap=0;
         this.drop=0;
     }
@@ -90,5 +92,68 @@ public class Bird extends BaseObject{
 
     public void setDrop(float drop) {
         this.drop = drop;
+    }
+
+    public void cratebird1(Resources res){
+        this.setWidth((150*Constants.SCREEN_WIDTH/1000));
+        this.setHeight((120*Constants.SCREEN_HEIGHT/1900));
+        this.setX(100*Constants.SCREEN_WIDTH/1000);
+        this.setY(Constants.SCREEN_HEIGHT/2-this.getHeight()/2);
+        this.setDead(false);
+
+        ArrayList<Bitmap> arrBms=new ArrayList<>();
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.plane_v2_1));
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.plane_v2_2));
+        this.setArrBms(arrBms);
+
+
+    }
+    public void cratebird2(Resources res){
+        this.setWidth((200*Constants.SCREEN_WIDTH/1000));
+        this.setHeight((120*Constants.SCREEN_HEIGHT/1900));
+        this.setX(100*Constants.SCREEN_WIDTH/1000);
+        this.setY(Constants.SCREEN_HEIGHT/2-this.getHeight()/2);
+        this.setDead(false);
+
+        ArrayList<Bitmap> arrBms=new ArrayList<>();
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.eli_frame1));
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.eli_frame2));
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.eli_frame3));
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.eli_frame4));
+        this.setArrBms(arrBms);
+
+
+    }
+    public void cratebird3(Resources res){
+        this.setWidth((120*Constants.SCREEN_WIDTH/1000));
+        this.setHeight((120*Constants.SCREEN_HEIGHT/1900));
+        this.setX(100*Constants.SCREEN_WIDTH/1000);
+        this.setY(Constants.SCREEN_HEIGHT/2-this.getHeight()/2);
+        this.setDead(false);
+        this.vFlap=10;
+
+        ArrayList<Bitmap> arrBms=new ArrayList<>();
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.chicken_frame1));
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.chiken_frame2));
+
+        this.setArrBms(arrBms);
+
+
+    }
+    public void cratebird4(Resources res){
+        this.setWidth((120*Constants.SCREEN_WIDTH/1000));
+        this.setHeight((120*Constants.SCREEN_HEIGHT/1900));
+        this.setX(100*Constants.SCREEN_WIDTH/1000);
+        this.setY(Constants.SCREEN_HEIGHT/2-this.getHeight()/2);
+        this.setDead(false);
+        this.vFlap=10;
+
+        ArrayList<Bitmap> arrBms=new ArrayList<>();
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.leochicken1));
+        arrBms.add(BitmapFactory.decodeResource(res,R.drawable.leochicken2));
+
+        this.setArrBms(arrBms);
+
+
     }
 }

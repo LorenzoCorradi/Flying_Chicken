@@ -45,6 +45,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
     boolean first_touch = false;
     boolean GameOverAdded=false;
     boolean touchedCoin=false;
+    Enviroment env;
     ArrayList<Pipe> pipes=new ArrayList<>();
     ArrayList<Coin> coins=new ArrayList<>();
     Resources res = getContext().getResources();
@@ -73,30 +74,32 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         this.context=context;
         gameLoop=new GameLoop(this,surfaceHolder);
         setFocusable(true);
-        this.setBackground(context.getDrawable(Constants.BACKGROUND));
+
+
         bird=new Bird();
+        switch(Constants.BIRD){
+            case 1 :
+                bird.cratebird1(res);
+                break;
+            case 2:
+                bird.cratebird2(res);
+                break;
+            case 3:
+                bird.cratebird3(res);
+                break;
+            case 4:
+                bird.cratebird4(res);
+                break;
+        }
+
         COLLISIONS = true;
 
         Constants.GAMEOVER = false;
         Constants.RESTART=false;
 
         score = 0;
-        //Toast.makeText(context, "Score:" + score, Toast.LENGTH_SHORT).show();
 
-        bird.setWidth((150*Constants.SCREEN_WIDTH/1000));
-        bird.setHeight((120*Constants.SCREEN_HEIGHT/1900));
-        bird.setX(100*Constants.SCREEN_WIDTH/1000);
-        bird.setY(Constants.SCREEN_HEIGHT/2-bird.getHeight()/2);
-        bird.setDead(false);
-        ArrayList<Bitmap> arrBms=new ArrayList<>();
 
-        /*arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame1));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame2));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame3));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.eli_frame4));*/
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.plane_v2_1));
-        arrBms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.plane_v2_2));
-        bird.setArrBms(arrBms);
 
         coin=new Coin();
         coin.setWidth((2*100*Constants.SCREEN_WIDTH/1000));
@@ -124,44 +127,22 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
             coins.add(last);
         }
 
-
-        bottom1=new Bottom();
-        bottom1.setWidth(Constants.SCREEN_WIDTH);
-        bottom1.setHeight(25*Constants.SCREEN_HEIGHT/100);
-        bottom1.setX(0);
-        bottom1.setY(Constants.SCREEN_HEIGHT-25*Constants.SCREEN_HEIGHT/100);
-        ArrayList<Bitmap> bottoms=new ArrayList<>();
-        bottoms.add(BitmapFactory.decodeResource(this.getResources(),R.drawable.vapor_bottom));
-        bottom1.setArrBms(bottoms);
-        bottom2=new Bottom();
-        bottom2.setWidth(Constants.SCREEN_WIDTH);
-        bottom2.setHeight(25*Constants.SCREEN_HEIGHT/100);
-        bottom2.setX(Constants.SCREEN_WIDTH);
-        bottom2.setY(Constants.SCREEN_HEIGHT-25*Constants.SCREEN_HEIGHT/100);
-        bottom2.setArrBms(bottoms);
-
-
-
-        Pipe start=new Pipe();
-        Bitmap imagepipetop=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res,R.drawable.vapor_pipe1),100*Constants.SCREEN_WIDTH/1000,Constants.SCREEN_HEIGHT,true);
-        Bitmap imagepipebot=Bitmap.createScaledBitmap(BitmapFactory.decodeResource(res,R.drawable.vapor_pipe2),100*Constants.SCREEN_WIDTH/1000,Constants.SCREEN_HEIGHT,true);
-        start.setimages(imagepipebot,imagepipetop);
-        start.init(400,5);
-        pipes.add(start);
-
-        for(int i=0; i<2;i++){
-            Pipe last=new Pipe();
-            last.setimages(imagepipebot,imagepipetop);
-            last.init(pipes.get(i).getX(),Pipe.newH(pipes.get(i)));
-            pipes.add(last);
+        env=new Enviroment(bottom1,bottom2,0,pipes);
+        switch(Constants.ENVIROMENT){
+            case 1 :
+                env.createEnv1(res,this,context);
+                break;
+            case 2:
+                env.createEnv2(res,this,context);
+                break;
         }
+
 
 
 
     }
     public void draw(Canvas canvas){
         super.draw(canvas);
-
 
         boolean status = Constants.PAUSED || Constants.GAMEOVER; //Se falsa le draw disegnano
 
@@ -173,7 +154,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
             GameOverAdded = true;
         }
         else{
-            if (mEventListener != null) {
+            if (mEventListener != null && !Constants.GAMEOVER) {
                 mEventListener.onEventOccurred(score, first_touch,GameOverAdded,touchedCoin);
             }
             touchedCoin=false;
@@ -181,8 +162,8 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
 
 
         if(!first_touch){
-            bottom1.draw(canvas, status);
-            bottom2.draw(canvas, status);
+            env.bottom1.draw(canvas, status);
+            env.bottom2.draw(canvas, status);
             //Paint myPaint = new Paint();              codice per vedere l'hitbox
             //myPaint.setColor(Color.rgb(0, 0, 0));
             //canvas.drawRect(bird.getRect(),myPaint);
@@ -194,7 +175,7 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
             //myPaint.setColor(Color.rgb(0, 0, 0));
             //canvas.drawRect(bird.getRect(),myPaint);
             bird.draw(canvas); //Si ferma quando e' caduto del tutto
-            Pipe.draw(canvas, status,pipes,res);
+            Pipe.draw(canvas, status,env.pipes,res);
             //for (Pipe pipe : pipes){                                    codice per vedere l'hitbox
             //    canvas.drawRect( pipe.getRectBottom(),myPaint);
             //    canvas.drawRect( pipe.getRectTop(),myPaint);
@@ -204,9 +185,9 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
                 coin.draw(canvas,status);
             }
             //coin.draw(canvas, status);
-            bottom1.draw(canvas, status);
+            env.bottom1.draw(canvas, status);
 
-            bottom2.draw(canvas, status);
+            env.bottom2.draw(canvas, status);
         }
         drawFPS(canvas);
         drawUPS(canvas);
@@ -230,14 +211,15 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         return true;
     }
     public void update(){
-
+        int id = android.os.Process.myPid();
+        //System.out.println(id);
         boolean status = Constants.PAUSED || Constants.GAMEOVER; //Se falsa le draw disegnano
         if(Constants.RESTART==true){
             restart();
         }
         if(!first_touch){
-            bottom1.totalMove(status);
-            bottom2.totalMove(status);
+            env.bottom1.totalMove(status);
+            env.bottom2.totalMove(status);
             bird.totalMove(status);
 
             if(bird.getY() > Constants.SCREEN_HEIGHT / 2 + 20){
@@ -246,16 +228,16 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         }
         else{
             bird.totalMove((status && !Constants.GAMEOVER) || bird.getY() > Constants.SCREEN_HEIGHT); //Si ferma quando e' caduto del tutto
-            Pipe.totalMove( pipes,status);
+            Pipe.totalMove( env.pipes,status);
 
             Coin.totalMove(coins,status);
            // coin.draw(canvas, status);
-            bottom1.totalMove( status);
+            env.bottom1.totalMove( status);
 
-            bottom2.totalMove( status);
+            env.bottom2.totalMove( status);
         }
         if(!bird.isDead() && !Constants.RESTART) {
-            for (Pipe pipe : pipes) {
+            for (Pipe pipe : env.pipes) {
                 if (bird.touchesPipe(pipe)) {
                     bird.setDead(true);
                     Constants.GAMEOVER = true;
@@ -296,7 +278,8 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-
+        System.out.println("Ciao");
+        gameLoop.stopLoop();
     }
     public void drawUPS(Canvas canvas){
         String averageUPS=Double.toString(gameLoop.getAverageUPS());
@@ -326,9 +309,9 @@ public class GameView  extends SurfaceView implements SurfaceHolder.Callback {
         bird.setDead(false);
         for(int i=0;i<3;i++){
             if(i==0){
-                pipes.get(i).init(400,5);
+                env.pipes.get(i).init(Constants.SCREEN_WIDTH-600,5);
             }else{
-                pipes.get(i).init(pipes.get(i-1).getX(),Pipe.newH(pipes.get(i)));
+                env.pipes.get(i).init(env.pipes.get(i-1).getX(),Pipe.newH(env.pipes.get(i)));
             }
 
         }
